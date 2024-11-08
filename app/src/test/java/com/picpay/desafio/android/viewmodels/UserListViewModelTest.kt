@@ -1,10 +1,11 @@
-package com.picpay.desafio.android.ui.viewmodels
+package com.picpay.desafio.android.viewmodels
 
 import android.os.Parcelable
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.picpay.desafio.android.data.remote.models.RemoteUser
 import com.picpay.desafio.android.data.repository.UserRepository
+import com.picpay.desafio.android.ui.viewmodels.UserListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -19,7 +20,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
 class UserListViewModelTest {
@@ -39,7 +39,6 @@ class UserListViewModelTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(testDispatcher)
         viewModel = UserListViewModel(userRepository, savedStateHandle)
     }

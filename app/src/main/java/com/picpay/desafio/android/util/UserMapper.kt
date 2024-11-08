@@ -13,12 +13,17 @@ object UserMapper {
         )
     }
 
+    @Throws(InvalidRemoteUserException::class)
     fun mapRemoteToLocal(remoteUser: RemoteUser): LocalUser {
-        return LocalUser(
-            id = remoteUser.id,
-            name = remoteUser.name,
-            username = remoteUser.username,
-            img = remoteUser.img
-        )
+        if (remoteUser.isValid()) {
+            return LocalUser(
+                id = remoteUser.id!!,
+                name = remoteUser.name!!,
+                username = remoteUser.username!!,
+                img = remoteUser.img!!
+            )
+        } else {
+            throw InvalidRemoteUserException("RemoteUser has invalid fields.")
+        }
     }
 }
