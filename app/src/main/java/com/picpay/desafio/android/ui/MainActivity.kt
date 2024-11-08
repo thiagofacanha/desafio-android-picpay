@@ -1,8 +1,6 @@
 package com.picpay.desafio.android.ui
 
 import android.os.Bundle
-import android.view.View
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
     private lateinit var adapter: UserListAdapter
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -29,18 +26,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         recyclerView = binding.recyclerView
-        progressBar = binding.userListProgressBar
-
-
+        binding.userListViewModel = userListViewModel
+        binding.lifecycleOwner = this
         layoutManager = LinearLayoutManager(this)
+        setObservers()
+    }
 
-
-        progressBar.visibility = View.VISIBLE
+    private fun setObservers() {
         userListViewModel.remoteUserList.observe(this) { users ->
             adapter = UserListAdapter(users)
             recyclerView.layoutManager = layoutManager
             recyclerView.adapter = adapter
-            progressBar.visibility = View.GONE
             userListViewModel.getRecyclerViewState()
                 ?.let { layoutManager.onRestoreInstanceState(it) }
 
@@ -54,7 +50,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onPause() {
         super.onPause()
-
         val recyclerViewState = layoutManager.onSaveInstanceState()
         recyclerViewState?.let { userListViewModel.saveRecyclerViewState(it) }
     }

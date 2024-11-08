@@ -20,15 +20,21 @@ class UserListViewModel @Inject constructor(
     private val _remoteUserList by lazy { MutableLiveData<List<RemoteUser>>() }
     val remoteUserList: LiveData<List<RemoteUser>> get() = _remoteUserList
 
+    private val _loading = MutableLiveData(false)
+    val loading: LiveData<Boolean> get() = _loading
+
     init {
         getUserList()
     }
 
     fun getUserList() {
+        _loading.value = true
         viewModelScope.launch {
             _remoteUserList.value = userRepository.getAllUsers()
+            _loading.value = false
         }
     }
+
 
     fun saveRecyclerViewState(state: Parcelable) {
         savedStateHandle[RECYCLER_VIEW_STATE] = state
