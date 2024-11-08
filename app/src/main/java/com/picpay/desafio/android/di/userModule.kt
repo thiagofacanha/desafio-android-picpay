@@ -1,11 +1,16 @@
 package com.picpay.desafio.android.di
 
-import com.picpay.desafio.android.repositories.UserRepository
-import com.picpay.desafio.android.repositories.UserRepositoryImpl
-import com.picpay.desafio.android.service.PicPayService
+import android.content.Context
+import androidx.room.Room
+import com.picpay.desafio.android.data.local.PicPayDatabase
+import com.picpay.desafio.android.data.local.dao.UserDao
+import com.picpay.desafio.android.data.remote.service.PicPayService
+import com.picpay.desafio.android.data.repository.UserRepository
+import com.picpay.desafio.android.data.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,7 +37,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(service: PicPayService): UserRepository {
-        return UserRepositoryImpl(service)
+    fun providePicPayDatabase(@ApplicationContext context: Context): PicPayDatabase {
+        return Room.databaseBuilder(context, PicPayDatabase::class.java, "pic_pay_database").build()
+    }
+
+    @Provides
+    fun provideUserDao(appDatabase: PicPayDatabase): UserDao {
+        return appDatabase.userDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(userDao: UserDao, service: PicPayService): UserRepository {
+        return UserRepositoryImpl(userDao, service)
     }
 }

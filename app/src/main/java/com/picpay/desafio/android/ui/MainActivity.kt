@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 
         progressBar.visibility = View.VISIBLE
-        userListViewModel.userList.observe(this) { users ->
+        userListViewModel.remoteUserList.observe(this) { users ->
             adapter = UserListAdapter(users)
             recyclerView.layoutManager = layoutManager
             recyclerView.adapter = adapter

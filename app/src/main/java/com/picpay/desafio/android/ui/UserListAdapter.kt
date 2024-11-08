@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.picpay.desafio.android.databinding.ListItemUserBinding
-import com.picpay.desafio.android.models.User
+import com.picpay.desafio.android.data.remote.models.RemoteUser
 
-class UserListAdapter(var users: List<User>) : RecyclerView.Adapter<UserListItemViewHolder>() {
+class UserListAdapter(var remoteUsers: List<RemoteUser>) : RecyclerView.Adapter<UserListItemViewHolder>() {
 
 //    var users = emptyList<User>()
 //        set(value) {
@@ -28,13 +28,13 @@ class UserListAdapter(var users: List<User>) : RecyclerView.Adapter<UserListItem
     }
 
     override fun onBindViewHolder(holder: UserListItemViewHolder, position: Int) {
-        holder.bind(users[position])
+        holder.bind(remoteUsers[position])
     }
 
-    override fun getItemCount(): Int = users.size
+    override fun getItemCount(): Int = remoteUsers.size
 
-    fun setItems(users: List<User>){
-        this.users = users
+    fun setItems(remoteUsers: List<RemoteUser>){
+        this.remoteUsers = remoteUsers
     }
 
 

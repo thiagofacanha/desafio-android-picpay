@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.databinding.ListItemUserBinding
-import com.picpay.desafio.android.models.User
+import com.picpay.desafio.android.data.remote.models.RemoteUser
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
@@ -12,12 +12,12 @@ class UserListItemViewHolder(
     private val binding: ListItemUserBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(user: User) {
-        binding.name.text = user.name
-        binding.username.text = user.username
+    fun bind(remoteUser: RemoteUser) {
+        binding.name.text = remoteUser.name
+        binding.username.text = remoteUser.username
         binding.progressBar.visibility = View.VISIBLE
         Picasso.get()
-            .load(user.img)
+            .load(remoteUser.img)
             .error(R.drawable.ic_round_account_circle)
             .into(binding.picture, object : Callback {
                 override fun onSuccess() {
