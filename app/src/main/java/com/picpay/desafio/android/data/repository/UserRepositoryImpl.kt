@@ -21,7 +21,7 @@ class UserRepositoryImpl(private val userDao: UserDao, private val picPayService
             getLocalUsers()
         } catch (e: HttpException) {
             getLocalUsers()
-        } catch (e: Exception) { //keeping this while cant be sure if I checked all possible exceptions
+        } catch (e: Exception) {
             getLocalUsers()
         }
     }
